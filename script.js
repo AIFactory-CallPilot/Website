@@ -31,6 +31,15 @@ app.controller("UploadController", function ($scope) {
             "upload success. uploaded file_name: ",
             uploaded_filename
           );
+          var parentElement = document.getElementById("upload");
+          var alertDiv = document.getElementById("upload-result");
+          if (!alertDiv) {
+            alertDiv = document.createElement('div');  
+            alertDiv.className = "alert alert-success";
+            alertDiv.id = "upload-result";
+          }
+          alertDiv.innerHTML = "업로드 완료";
+          parentElement.append(alertDiv);
       })
       .catch(error => console.log('error', error));
     };
@@ -49,7 +58,12 @@ app.controller("UploadController", function ($scope) {
       .then(response => response.json())
       .then(function(result){
         var parentElement = document.getElementById("result");
-        var alertDiv = document.createElement('div');
+        var alertDiv = document.getElementById("summary-result");
+        if (!alertDiv) {
+          alertDiv = document.createElement('div');
+          alertDiv.id = "summary-result";
+        }
+        
         if (result.progress === "요약 완료.") {
           alertDiv.className = "alert alert-success";
         } else {
