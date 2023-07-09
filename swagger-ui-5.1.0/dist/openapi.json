@@ -1,0 +1,106 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "callpilot",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://asia-northeast3-airy-environs-390809.cloudfunctions.net"
+    },
+    {
+      "url": "https://get-response-sm7wohjfua-du.a.run.app"
+    }
+  ],
+  "paths": {
+    "/upload": {
+      "post": {
+        "tags": [
+          "callpilot"
+        ],
+        "summary": "server: https://asia-northeast3-airy-environs-390809.cloudfunctions.net",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "body": {
+                      "type": "string",
+                      "description": "uploaded file name. parameter for /{audio_filename}"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{audio_filename}": {
+      "get": {
+        "tags": [
+          "callpilot"
+        ],
+        "summary": "server: https://get-response-sm7wohjfua-du.a.run.app",
+        "parameters": [
+          {
+            "name": "audio_filename",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "uploaded file name. parameter for /{audio_filename}"
+                    },
+                    "progress": {
+                      "type": "string",
+                      "description": "processing state"
+                    },
+                    "summary": {
+                      "type": "string",
+                      "description": "summarize result by LLM"
+                    },
+                    "text": {
+                      "type": "string",
+                      "description": "Speech to Text result by Whisper"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
